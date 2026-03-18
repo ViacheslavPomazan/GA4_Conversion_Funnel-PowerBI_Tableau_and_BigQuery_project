@@ -11,7 +11,8 @@ The primary goal is to visualize the user journey from the 'session_start' to th
 ## Tech Stack: ⚒️
 * <b>Data Source:</b> Google Analytics 4 (BigQuery Public Dataset): `bigquery-public-data.ga4_obfuscated_sample_ecommerce`
 * <b>Data Extraction:</b> Advanced SQL query in BigQuery to unnest event parameters and flatten the hierarchical GA4 structure.
-* <b>BI Tool:</b> Power BI for creating an interactive dashboard with DAX measures to calculate conversion steps and drop-off rates.
+* <b>Visualization & Modeling:</b> Power BI for creating an interactive dashboard 
+* <b>Metrics Calculation:</b> DAX measures.
 
 ## Gallery
 1. 
@@ -29,6 +30,65 @@ The primary goal is to visualize the user journey from the 'session_start' to th
    *  <b>Data Quality & Cleaning:</b> Filtered 7 key funnel events and handled session inconsistencies (removed sessions with multiple or missing session_start).
    *  <b>Scale:</b> Successfully processed a final table of 867K+ rows for Power BI visualization.
 
+<details>
+<summary><b>Querying data from BigQuery</b></summary>
+
+```sql
+WITH init AS (
+  SELECT timestamp_micros(event_timestamp) AS event_timestamp,
+      (SELECT value.int_value FROM UNNEST(event_params) WHERE key = 'ga_session_id') AS session_id ,
+          user_pseudo_id || '+' ||
+          CAST((SELECT value.int_value FROM UNNEST(event_params) WHERE key = 'ga_session_id') AS string) AS user_session_id, 
+      event_name,
+      REGEXP_EXTRACT(
+                (SELECT value.string_value FROM UNNEST(event_params) WHERE key = 'page_location'), 
+                            r'(?:\w+:\/\/)?[^\/]+\/(.*)') AS landing_page_location,
+      traffic_source.source AS sourse, traffic_source.medium AS medium, traffic_source.name AS campaign,
+      geo.country AS country, device.category AS device_category, 
+      device.operating_system AS operating_system,
+      device.language AS device_language
+  FROM `bigquery-public-data.ga4_obfuscated_sample_ecommerce.events_*`
+  WHERE event_name IN ('session_start', 'view_item', 'add_to_cart', 'begin_checkout',
+                        'add_shipping_info', 'add_payment_info', 'purchase')
+  ),
+rank1 as (
+  SELECT *, 
+     ROW_NUMBER() OVER (PARTITION BY user_session_id ORDER BY event_timestamp ASC ) AS rn
+  FROM init
+  WHERE event_name = 'session_start'
+  ),
+init_filtered AS (
+  SELECT event_timestamp,
+        session_id, user_session_id,
+        event_name,
+        landing_page_location,
+        sourse, medium, campaign,
+        country, device_category,
+        operating_system, device_language
+  FROM rank1
+  WHERE rn = 1
+  UNION ALL
+  SELECT *
+  FROM init
+  WHERE event_name <> 'session_start' --877 538
+  ),
+start_table as (
+  SELECT user_session_id
+  FROM init_filtered
+  WHERE event_name = 'session_start'
+  )
+SELECT i.event_timestamp,
+        i.session_id, st.user_session_id,
+        i.event_name,
+        i.landing_page_location,
+        i.sourse, i.medium, i.campaign,
+        i.country, i.device_category,
+        i.operating_system, i.device_language
+FROM start_table st LEFT JOIN init_filtered i 
+ON st.user_session_id = i.user_session_id
+```
+</details>
+ 
 🔹 <b>Data Modelling:</b>
 
 ![model](image/ga1_funnel_model1.png)
