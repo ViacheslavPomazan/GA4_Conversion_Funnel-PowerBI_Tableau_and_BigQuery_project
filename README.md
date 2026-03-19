@@ -92,7 +92,7 @@ ON st.user_session_id = i.user_session_id
 
 ## Power BI Highlights: ⭐
 
-🔹 <b>Data Modelling:</b>
+### 🔹 <b>Data Modelling:</b>
  
 <details>
 <summary>Data modele scheme is here:</summary>
@@ -100,7 +100,11 @@ ON st.user_session_id = i.user_session_id
 ![model](image/ga1_funnel_model1.png)
 </details>
 
+<details>
+<summary>Creating GA4 Session-Event Fact Table(GAFT):</summary>
 
+To enable deep-dive segmentation, I developed a GA4 Session-Event Fact Table(GAFT). This table consolidates core GA4 events with their respective session attributes (Source, Medium, Device, etc.), allowing for seamless filtering across all funnel stages.
+</details>
 
 ## Tableau Gallery
 
