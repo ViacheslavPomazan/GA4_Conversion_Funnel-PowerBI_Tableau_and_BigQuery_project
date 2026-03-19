@@ -92,9 +92,10 @@ ON st.user_session_id = i.user_session_id
 
 👉[Watch Power BI report video review](https://drive.google.com/file/d/1LuuwnS-S5D4HYdjOM13_iF8XBXzkgG9V/view?usp=sharing)
 
+
 ## Power BI Highlights: ⭐
 
-### 🔹 <b>Data Modelling:</b>
+### 🔹 <b>Data Modelling</b>
  
 <details>
 <summary>Data modele scheme is here:</summary>
@@ -225,8 +226,66 @@ SUMMARIZE(
         )
 )
 ```
-</detailes>
+</details>
 
+### 🔹 <b>DAX Measures</b>
+The full analytical model includes 50+ custom DAX measures for deep analysis. Below are some of them:
+
+<details>
+<summary>Calculating the conversion rate from one selected event to a second selected event by country.</summary>
+
+```
+CR Country =
+VAR FirstEvent =
+    SELECTEDVALUE( FirstEventSelector[1st Event] )
+
+VAR SecondEvent =
+    SELECTEDVALUE( SecondEventSelector[2nd Event] )
+
+VAR TotalSessions =
+    -- count the total number of unique sessions where the 1st Event occurred.
+    CALCULATE(
+              DISTINCTCOUNT(GAFT[SessionID]),
+              GAFT[Event] = FirstEvent,     
+              ALLEXCEPT(GAFT, GAFT[Country])         
+    )
+
+VAR EventSessions =
+    -- count the total number of unique sessions where the 2nd Event occurred.
+    CALCULATE(
+              DISTINCTCOUNT(GAFT[SessionID]),
+        		  GAFT[Event] = SecondEvent,
+              ALLEXCEPT(GAFT, GAFT[Country])
+             )
+   
+RETURN
+    DIVIDE(
+        EventSessions,
+        TotalSessions
+    )
+```
+</details>
+
+<details>
+<summary>Calculating the start times for Gantt chart "Average Duration of Purchase Journey Stages". </summary>
+
+```
+Combined Start Time (sec) =
+VAR CurrentRank = SELECTEDVALUE('Event Order Table'[Event Rank])
+
+RETURN
+    CALCULATE(
+        SUMX(
+            ALL('Event Order Table'),
+            IF(
+                'Event Order Table'[Event Rank] <= CurrentRank,
+                [Combined Duration],
+                0
+            )
+        )
+    )
+```
+</details>
 
 ## Tableau Gallery
 
