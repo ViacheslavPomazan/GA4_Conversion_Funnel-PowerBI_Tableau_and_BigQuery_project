@@ -7,7 +7,7 @@ The primary goal is to visualize the user journey from the 'session_start' to th
 * <b>Funnel Visualization:</b> Map the progression between key events: session_start → view_item → add_to_cart → begin_checkout → add_shipping_info → add_payment_info → purchase.
 * <b>User Segmentation:</b> Analyze how conversion rates vary across different dimensions such as Traffic Source, Device Category, and Geographic Location.
 * <b>Behavioral Relationships:</b> Discover correlations between micro-conversions (e.g., viewing a product) and the final conversion rate (CR) to optimize the marketing budget.
-* <b>Event Timestamping:</b> Define and calculate timestamps for each step in the conversion funnel.
+* <b>Time-to-Conversion:</b> Track event timestamps to measure the duration between funnel stages.
 
 ## Tech Stack: ⚒️
 * <b>Data Source:</b> Google Analytics 4 (BigQuery Public Dataset): `bigquery-public-data.ga4_obfuscated_sample_ecommerce`
