@@ -443,9 +443,14 @@ Note: By using LOD expressions, this logic remains accurate even when the view i
 ### 🔹 <b>Data Visualization</b>
 
 * A dual-axis map designed to display the geographical distribution of three distinct metrics concurrently.
+* Implemented a Bar-in-Bar visualization where a translucent 'shadow' represents the previous funnel stage's value behind the current metric. This enables an instant visual comparison of retention and drop-off rates within a single graphical element.
 
+## Insights 🔍
+* The overall session-to-purchase conversion rate for the analyzed period is 1.34%, which is a satisfactory result, though it sits near the lower threshold. A significant drop-off is observed at the first stage: the conversion from `session_start` to `view_item` is only ~20%. This suggests that the majority of potential customers churn during the initial site navigation phase.
+* The highest session-to-purchase conversion rate across all traffic sources was recorded in mid-December.
+* The transition from `add_to_cart` to `begin_checkout` is the most time-consuming step in the funnel.
 
 ## Feedback and Collaboration 🙌
 
-If you have any feedback regarding the data modeling, DAX formulas, or visualization choices, please open an issue or reach out to me directly. I'm also open to collaboration and welcome any contributions that could enhance the report's functionalities!
+If you have any feedback regarding the SQL code, data modeling, DAX formulas, LOD expressions or visualization choices, please open an issue or reach out to me directly. I'm also open to collaboration and welcome any contributions that could enhance the report's functionalities!
 
