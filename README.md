@@ -1,8 +1,9 @@
 # GA4 Conversion Funnel | Power BI, Tableau & BigQuery Project 🚀
 
 ## Project Overview
-The primary goal is to visualize the user journey from the 'session_start' to the final 'purchase' through such stages as 'view_item', 'add_to_cart', 'begin_checkout', 'add_shipping_info', 'add_payment_info', identifying where potential customers drop off and how different user segments behave throughout the funnel. Data is sourced from the `ga4_obfuscated_sample_ecommerce` public dataset, containing 4M+ rows of session data from November 1, 2020, to January 31, 2021. Unfortunately, neither the full CSV file extracted from BigQuery nor the Power BI .pbix file can be included in the repository due to their sizes (138 MB and 88 MB respectively). The first 500 rows of data are provided in the ga4_conversion_funnel_sample.csv file. The link to the full dataset is here: [Link](https://drive.google.com/file/d/1de58cEZOWrLjjCqQTtMt2_MUJfmkAgas/view?usp=sharing)  
-Project visualization was developed in two versions: Power BI Report and Tableau Dashboard.
+The core of this project is a comprehensive study of e-commerce conversion using raw GA4 data from BigQuery. The primary goal is to visualize and analyze the complete user journey — from `session_start` to the final `purchase` — through key stages including `view_item`, `add_to_cart`, `begin_checkout`, `add_shipping_info`, and `add_payment_info`.
+
+By transforming 4M+ rows of raw events into actionable insights, the project tracks both quantitative and time-based funnel metrics to identify where customers drop off and how different user segments behave. To demonstrate cross-platform expertise, the final visualization was developed in two versions: a Power BI Report and a Tableau Dashboard.
 
 ## Key Objectives: 🎯
 * <b>Funnel Visualization:</b> Map the progression between key events: session_start → view_item → add_to_cart → begin_checkout → add_shipping_info → add_payment_info → purchase.
@@ -15,6 +16,9 @@ Project visualization was developed in two versions: Power BI Report and Tableau
 * <b>Data Extraction:</b> Advanced SQL query in BigQuery.
 * <b>Visualization & Modeling:</b> Power BI and Tableu for creating an interactive dashboards. 
 * <b>Metrics Calculation:</b> Developed business logic using DAX in Power BI and a combination of LOD expressions and Calculated Fields in Tableau.
+
+## Data Source. 🛢️
+Data is sourced from the `ga4_obfuscated_sample_ecommerce` public dataset, containing 4M+ rows of session data from November 1, 2020, to January 31, 2021. Unfortunately, neither the full CSV file extracted from BigQuery nor the Power BI .pbix file can be included in the repository due to their sizes (138 MB and 88 MB respectively). The first 500 rows of data are provided in the ga4_conversion_funnel_sample.csv file. The link to the full dataset is here: [Link](https://drive.google.com/file/d/1de58cEZOWrLjjCqQTtMt2_MUJfmkAgas/view?usp=sharing)  
 
 ## SQL Highlights: ⭐
 This section demonstrates the core data transformation logic used to process raw GA4 events from BigQuery.
